@@ -18,8 +18,14 @@ jobs:
         with:
           root_file: main.tex
 
+      - name: Generate timestamp
+        run: echo "TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
+
+      - name: Rename PDF with timestamp
+        run: mv main.pdf document_${TIMESTAMP}.pdf
+
       - name: Upload PDF
         uses: actions/upload-artifact@v4
         with:
-          name: latex-pdf
-          path: main.pdf
+          name: latex-pdf-${{ env.TIMESTAMP }}
+          path: document_${{ env.TIMESTAMP }}.pdf
